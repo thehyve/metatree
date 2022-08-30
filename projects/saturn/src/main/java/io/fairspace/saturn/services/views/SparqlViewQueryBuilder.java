@@ -288,9 +288,8 @@ public class SparqlViewQueryBuilder {
             expr = new E_StrStartsWith(new E_StrLowerCase(variable), makeString(filter.prefix.trim().toLowerCase()));
         } else if (filter.booleanValue != null) {
             expr = new E_Equals(variable, makeBoolean(filter.booleanValue));
-        }
-        else {
-            return null;
+        } else {
+            return "";
         }
 
         return new ElementFilter(expr).toString().concat("\n");

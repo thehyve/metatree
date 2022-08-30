@@ -1957,7 +1957,8 @@ For the metadata pages in the user interface, a view configuration needs to be c
 that specifies the tables and columns.
 An example can be found in link:projects/saturn/views.yaml[views.yaml]
 
-
+Possible column `type` that can be specified in the configuration is one of **text**, **set**, **link**, **term**, **termSet**,
+**number**, **date**, **boolean** and **identifier**.
 
 == Installation and configuration
 

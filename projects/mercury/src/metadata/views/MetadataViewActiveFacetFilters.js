@@ -94,7 +94,7 @@ export const MetadataViewActiveFacetFilters = (props: MetadataViewActiveFacetFil
                 filters && filters.map(filter => {
                     if (!isNonEmptyValue(filter.min) && !isNonEmptyValue(filter.max)
                         && (!filter.values || filter.values.length === 0)
-                        && filter.booleanValue === null) {
+                        && filter.booleanValue == null) {
                         return null;
                     }
                     const facet = facets.find(f => f.name === filter.field);
