@@ -45,6 +45,7 @@ const CUSTOM_RESOURCE_COLUMNS = ['access', 'path'];
 const RESOURCE_TYPE_COLUMN = `${RESOURCES_VIEW}_type`;
 
 export const MetadataViewTable = (props: MetadataViewTableProperties) => {
+    // eslint-disable-next-line
     const {columns, visibleColumnNames, loading, data, toggleRow, selected, view, idColumn, history, collections = []} = props;
     const classes = useStyles();
     const {textFiltersObject, setTextFiltersObject} = props;
@@ -65,12 +66,9 @@ export const MetadataViewTable = (props: MetadataViewTableProperties) => {
         row[RESOURCE_TYPE_COLUMN] && row[RESOURCE_TYPE_COLUMN][0] && row[RESOURCE_TYPE_COLUMN][0].value
     );
 
+    // eslint-disable-next-line
     const handleResultSingleClick = (iri: string, label: string, linkedFiles: MetadataViewEntity[]) => {
-        if (selected && selected.iri === iri) {
-            toggleRow();
-        } else {
-            toggleRow({label, iri, linkedFiles: linkedFiles || []});
-        }
+        // temporary disabled single click, until more relevant information can be shown
     };
 
     const handleResultDoubleClick = (iri: string) => {
