@@ -29,7 +29,7 @@ VERSION, {docdate}
 
 This repository is based on {fairspace-repository}[thehyve/fairspace].
 
-image:docs/images/Fairspace.png[Fairspace]
+image:docs/images/metatree.png[Fairspace]
 
 Metatree is a secure place for managing research data.
 Researchers can add or edit directories representing metadata entities.
