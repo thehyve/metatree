@@ -650,18 +650,18 @@
     {
       "id": "f3616923-47a6-45b8-b037-bd737e44d39c",
       "clientId": "${KEYCLOAK_CLIENT_ID}",
-      "rootUrl": "${FAIRSPACE_URL}",
-      "adminUrl": "${FAIRSPACE_URL}",
+      "rootUrl": "${METATREE_URL}",
+      "adminUrl": "${METATREE_URL}",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "${FAIRSPACE_URL}/*"
+        "${METATREE_URL}/*"
       ],
       "webOrigins": [
-        "${FAIRSPACE_URL}"
+        "${METATREE_URL}"
       ],
       "notBefore": 0,
       "bearerOnly": false,

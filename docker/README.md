@@ -1,14 +1,14 @@
-# Fairspace deployment with Docker
+# Metatree deployment with Docker
 
 This folder contains `docker-compose` scripts for running:
-- Fairspace, including *Mercury* front-end, *Pluto* proxy, 
+- Metatree, including *Mercury* front-end, *Pluto* proxy, 
   *Saturn* back-end and its databases (`docker-compose.yml`);
 - Keycloak and its database (`keycloak.yml`);
-- An SSL proxy for Fairspace and Keycloak (`ssl-proxy-docker-compose.yml`).
+- An SSL proxy for Metatree and Keycloak (`ssl-proxy-docker-compose.yml`).
 
-Fairspace uses Keycloak for authentication. It is preferred to have a Keycloak instance at organisation level,
+Metatree uses Keycloak for authentication. It is preferred to have a Keycloak instance at organisation level,
 Keycloak `docker-compose` script can be excluded, and an existing Keycloak instance can be used, 
-configured as described in the main Fairspace documentation.
+configured as described in the main Metatree documentation.
 By default, a predefined `fairspace` realm configuration is imported to Keycloak using [realm template](./keycloak/realm-template.json).
 
 Please ensure that you have a recent version of Docker (>= `18`).
@@ -26,7 +26,7 @@ Variable                   | Description
 `KEYCLOAK_REALM`           | Keycloak realm, e.g. `fairspace`
 `KEYCLOAK_CLIENT_ID`       | Keycloak client id, e.g. `fairspace-client`
 `KEYCLOAK_CLIENT_SECRET`   | Keycloak client secret, e.g. `**********`
-`FAIRSPACE_URL`            | URL of Fairspace, e.g. `https://fairspace.example.com`
+`METATREE_URL`            | URL of Metatree, e.g. `https://metatree.example.com`
 `PLUTO_LOGLEVEL`           | Level of Pluto application logs, default: `INFO`
 `PLUTO_CONNECT_TIMEOUT_MILLIS`| Pluto connection timeout in milliseconds, default: `600000`.
 `PLUTO_SOCKET_TIMEOUT_MILLIS`| Pluto socket timeout in milliseconds, default: `2000`.
@@ -34,7 +34,7 @@ Variable                   | Description
 `SATURN_IMAGE`             | Path to the docker image of Mercury, e.g. `eu.gcr.io/fairspace-207108/mercury:0.2.4` or `mercury-local:latest` if deploying the local build
 `FAIRSPACE_SSL_PROXY_IMAGE`| Path to the docker image of SSL proxy, e.g. `eu.gcr.io/fairspace-207108/fairspace-ssl-proxy:0.2.4` or `fairspace-ssl-proxy-local:latest` if deploying the local build
 `KEYCLOAK_HOSTNAME`        | FQDN of the Keycloak server, e.g., `keycloak.example.com`
-`FAIRSPACE_HOSTNAME`       | FQDN of the Fairspace server, e.g., `fairspace.example.com`
+`FAIRSPACE_HOSTNAME`       | FQDN of the Metatree server, e.g., `metatree.example.com`
 
 ## Certificates
 
@@ -51,16 +51,16 @@ There can be 2 different types of your certificates:
 
 **NOTE!**
 *Browsers do not trust self-signed certificates by default. Depending on a browser, you may need several steps 
-to allow opening Fairspace and Keycloak pages with this type of certificate.*
+to allow opening Metatree and Keycloak pages with this type of certificate.*
 
 You can generate a self-signed certificate using OpenSSL (1.1.1 or newer).
 To generate a self-signed certificate for hostname `example.com`
-with aliases `keycloak.example.com` and `fairspace.example.com`, run, e.g.:
+with aliases `keycloak.example.com` and `metatree.example.com`, run, e.g.:
 ```bash
 openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
   -out ssl/server.pem -keyout ssl/server.key \
   -subj "/C=NL/ST=Utrecht/L=Utrecht/O=The Hyve/CN=example.com" \
-  -addext "subjectAltName=DNS:keycloak.example.com,DNS:fairspace.example.com"
+  -addext "subjectAltName=DNS:keycloak.example.com,DNS:metatree.example.com"
 ```
 
 To generate a self-signed certificate for localhost:
@@ -124,10 +124,10 @@ an access token with Keycloak.
 
 ## Keycloak
 
-Keycloak is configured for use with Fairspace at first startup, using the
+Keycloak is configured for use with Metatree at first startup, using the
 [realm configuration template](keycloak/realm-template.json). To disable this,
 comment out the `KEYCLOAK_IMPORT` line in [keycloak.yml](keycloak.yml) and configure the Keycloak realm manually,
-following the instructions from [Fairspace documentation](../README.adoc) on how to configure a Keycloak realm for Fairspace.
+following the instructions from [Metatree documentation](../README.adoc) on how to configure a Keycloak realm for Metatree.
 
 Importing the realm template results in:
 - creating a `fairspace` realm,
@@ -157,7 +157,7 @@ In addition, you can use the `-d` flag to run containers in the detached mode (r
 docker-compose -f <config-file.yml> up -d
 ```
 
-To run Fairspace, Keycloak and SSL proxy together, use the following command:
+To run Metatree, Keycloak and SSL proxy together, use the following command:
 ```bash
 docker-compose -f docker-compose.yml -f keycloak-docker-compose.yml -f ssl-proxy-docker-compose.yml up -d
 ```
@@ -178,13 +178,13 @@ bash start_all.sh
 ## Building and running images locally
 
 If you want to try these scripts locally, without having separate DNS records
-for Fairspace and Keycloak pointing to your machine, some additional steps are
+for Metatree and Keycloak pointing to your machine, some additional steps are
 required:
 
 1. Add hostnames to your `etc/hosts` file:
     ```
     127.0.0.1       keycloak
-    127.0.0.1       fairspace
+    127.0.0.1       metatree
     ```
 2. Add `extra_hosts` to the `fairspace-pluto` and `fairspace-saturn` services in `docker-compose.yml`:
     ```yaml
@@ -197,10 +197,10 @@ required:
 3. Set these local aliases as host names in the `.env` file:
     ```properties
     KEYCLOAK_SERVER_URL=https://keycloak
-    FAIRSPACE_HOSTNAME=fairspace
+    FAIRSPACE_HOSTNAME=metatree
     KEYCLOAK_HOSTNAME=keycloak
     ```
-4. Use `localhost`, `keycloak` and `fairspace` when generating the certificate
+4. Use `localhost`, `keycloak` and `metatree` when generating the certificate
 
 5. To build the images locally from the source code, instead of using existing images, use `deploy.sh` script. 
    It will create 3 local images: `fairspace-ssl-proxy-local:latest`, `pluto-local:latest` and `saturn-local:latest`.

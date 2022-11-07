@@ -8,7 +8,7 @@ Keycloak configuration scripts, and these have to be applied to an existing work
 - A local clone of the workspace repository.
 - You'll need to have kubectl installed locally, and have management access to the
   cluster you want to run the Keycloak configuration job on.
-- It is useful, but not strictly necessary, to have the [Fairspace shell shortcuts](https://github.com/fairspace/fr-shortcuts)
+- It is useful, but not strictly necessary, to have the [Metatree shell shortcuts](https://github.com/metatree/fr-shortcuts)
   installed.
 
 ## Instructions
@@ -25,7 +25,7 @@ Keycloak configuration scripts, and these have to be applied to an existing work
   By default, the workspace name is set to the release name. If you want to override it, run
   the script like this: `./rerun-keycloak-config.sh <valuesfile> <namespace> <releasename> <workspacename> <fullworkspacename>`.
   
-The default values for `workspace name` and `full workspace name` are defined in the [template helpers](https://github.com/fairspace/workspace/blob/dev/charts/workspace/templates/_helpers.tpl) file.
+The default values for `workspace name` and `full workspace name` are defined in the [template helpers](https://github.com/metatree/workspace/blob/dev/charts/workspace/templates/_helpers.tpl) file.
 - The last line of the script output contains instructions about how to monitor the progress
   of the job. It may take a couple of minutes for the keycloak configuration job to finish.
 
