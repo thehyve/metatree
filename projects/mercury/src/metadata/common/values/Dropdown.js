@@ -41,10 +41,15 @@ const Dropdown = ({
 
     const inputRef = React.createRef();
 
+    const onTextChange = (event) => {
+        setSearchText(event.target.valueOf().value);
+    };
+
     return (
         <Autocomplete
             {...otherProps}
             value={value}
+            filterOptions={(x) => x}
             onChange={(e, v) => {
                 if (onChange) {
                     onChange(v);
@@ -67,6 +72,7 @@ const Dropdown = ({
                     inputProps={clearTextOnSelection ? inputProps(params) : params.inputProps}
                     inputRef={inputRef}
                     label={label}
+                    onChange={onTextChange}
                 />
             )}
             renderOption={(option) => (
