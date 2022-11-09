@@ -14,7 +14,6 @@ const Dropdown = ({
     const [optionsToShow, setOptionsToShow] = useState(options);
     const [searchText, setSearchText] = useState('');
     const [touched, setTouched] = useState(loadOptionsOnMount);
-
     const isMounted = useIsMounted();
 
     useEffect(() => {
@@ -40,9 +39,33 @@ const Dropdown = ({
     });
 
     const inputRef = React.createRef();
+    var delayTime = 0;
+    var delayText = "";
+    var delayActive = false;
+
+    const delayedExecute = () => {
+        delayActive = true;
+        if (delayTime < 0) {
+            setSearchText(delayText);
+            delayActive = false;
+            delayTime = 1200;
+            delayText = "";
+        } else {
+            setTimeout(() => {
+                delayTime = delayTime - 100;
+                delayedExecute();
+            }, 100);
+        }
+    };
 
     const onTextChange = (event) => {
-        setSearchText(event.target.valueOf().value);
+        delayText = event.target.valueOf().value;
+        delayTime = 1200;
+
+        if(delayActive)
+            return;
+
+        delayedExecute();
     };
 
     return (
