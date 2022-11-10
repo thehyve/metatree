@@ -20,7 +20,7 @@ if $DIR/build-condition.sh $TRAVIS_COMMIT_RANGE projects/; then
     echo -e "\npodAnnotations:" >> charts/fairspace/values.yaml
     echo -e "  fairspace:\n    commit: \"$COMMIT_ID\"\n" >> charts/fairspace/values.yaml
 
-    echo "Changes in $project_name project detected, metatree pod will be restarted."
+    echo "Changes in $project_name project detected, fairspace pod will be restarted."
 else
     echo "No changes found in projects since the last build."
 fi

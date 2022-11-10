@@ -3,11 +3,11 @@ set -e
 
 mkdir -p /etc/nginx/sites-enabled
 
-if [[ ! -z ${FAIRSPACE_HOSTNAME} ]]; then
+if [[ ! -z ${METATREE_HOSTNAME} ]]; then
 cat > /etc/nginx/sites-enabled/fairspace.conf <<EndOfMessage
    server {
      listen 443 ssl;
-     server_name           ${FAIRSPACE_HOSTNAME};
+     server_name           ${METATREE_HOSTNAME};
      ssl_certificate       /etc/nginx/server.pem;
      ssl_certificate_key   /etc/nginx/server.key;
      index                 index.html;
@@ -28,8 +28,8 @@ EndOfMessage
 cat > /etc/nginx/sites-enabled/fw-fairspace.conf <<EndOfMessage
    server {
      listen 80;
-     server_name ${FAIRSPACE_HOSTNAME};
-     return 301 https://${FAIRSPACE_HOSTNAME}\$request_uri;
+     server_name ${METATREE_HOSTNAME};
+     return 301 https://${METATREE_HOSTNAME}\$request_uri;
    }
 EndOfMessage
 fi
@@ -66,6 +66,6 @@ fi
 sync
 
 unset KEYCLOAK_HOSTNAME
-unset FAIRSPACE_HOSTNAME
+unset METATREE_HOSTNAME
 
 exec nginx -g 'daemon off;'

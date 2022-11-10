@@ -32,9 +32,9 @@ Variable                   | Description
 `PLUTO_SOCKET_TIMEOUT_MILLIS`| Pluto socket timeout in milliseconds, default: `2000`.
 `PLUTO_IMAGE`              | Path to the docker image of Pluto, e.g. `eu.gcr.io/fairspace-207108/metatree-pluto:0.2.5` or `pluto-local:latest` if deploying the local build
 `SATURN_IMAGE`             | Path to the docker image of Mercury, e.g. `eu.gcr.io/fairspace-207108/mercury:0.2.5` or `mercury-local:latest` if deploying the local build
-`FAIRSPACE_SSL_PROXY_IMAGE`| Path to the docker image of SSL proxy, e.g. `eu.gcr.io/fairspace-207108/fairspace-ssl-proxy:0.2.5` or `fairspace-ssl-proxy-local:latest` if deploying the local build
+`METATREE_SSL_PROXY_IMAGE` | Path to the docker image of SSL proxy, e.g. `eu.gcr.io/fairspace-207108/fairspace-ssl-proxy:0.2.5` or `fairspace-ssl-proxy-local:latest` if deploying the local build
 `KEYCLOAK_HOSTNAME`        | FQDN of the Keycloak server, e.g., `keycloak.example.com`
-`FAIRSPACE_HOSTNAME`       | FQDN of the Metatree server, e.g., `metatree.example.com`
+`METATREE_HOSTNAME`        | FQDN of the Metatree server, e.g., `metatree.example.com`
 
 ## Certificates
 
@@ -197,7 +197,7 @@ required:
 3. Set these local aliases as host names in the `.env` file:
     ```properties
     KEYCLOAK_SERVER_URL=https://keycloak
-    FAIRSPACE_HOSTNAME=metatree
+    METATREE_HOSTNAME=metatree
     KEYCLOAK_HOSTNAME=keycloak
     ```
 4. Use `localhost`, `keycloak` and `metatree` when generating the certificate
@@ -208,7 +208,7 @@ required:
     ```properties
     PLUTO_IMAGE=pluto-local:latest
     SATURN_IMAGE=saturn-local:latest
-    FAIRSPACE_SSL_PROXY_IMAGE=fairspace-ssl-proxy-local:latest
+    METATREE_SSL_PROXY_IMAGE=fairspace-ssl-proxy-local:latest
     ```
    The script will build the images and run all the components. Run the script with:
     ```bash
