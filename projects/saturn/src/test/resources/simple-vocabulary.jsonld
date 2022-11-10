@@ -18,7 +18,7 @@
             "@id": "fs:Collection",
             "@type": "rdf:Class",
             "fs:fairspaceEntity": false,
-            "rdfs:comment": "A specific collection in Fairspace.",
+            "rdfs:comment": "A specific collection in Metatree.",
             "rdfs:label": "Collection"
         },
         {

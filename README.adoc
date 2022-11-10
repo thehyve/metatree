@@ -1,16 +1,16 @@
-= SILS-Fairspace
+= Metatree
 The Hyve
 VERSION, {docdate}
-:description: Fairspace documentation.
+:description: Metatree documentation.
 :author: The Hyve
 :doctype: book
 :showtitle!:
-:url-repo: https://github.com/thehyve/sils-fairspace
+:url-repo: https://github.com/thehyve/metatree
 :source-highlighter: rouge
 :icons: font
 :toc: macro
 :toclevels: 3
-:toc-title: SILS-Fairspace
+:toc-title: Metatree
 
 :Jena: https://jena.apache.org/
 :RDF: https://en.wikipedia.org/wiki/Resource_Description_Framework
@@ -29,9 +29,9 @@ VERSION, {docdate}
 
 This repository is based on {fairspace-repository}[thehyve/fairspace].
 
-image:docs/images/Fairspace.png[Fairspace]
+//image:docs/images/metatree.png[Fairspace]
 
-Fairspace is a secure place for managing research data.
+Metatree is a secure place for managing research data.
 Researchers can add or edit directories representing metadata entities.
 Data access is organised per entity type.
 
@@ -45,13 +45,13 @@ see the section on <<Data model and view configuration>>.
 .*Key features*
 ****
 
-* Fairspace ensures that all metadata entities have a unique identifier and checks
+* Metatree ensures that all metadata entities have a unique identifier and checks
 metadata consistency and validity upon data entry.
-* Fairspace allows organisations to *customise* the configured data model,
+* Metatree allows organisations to *customise* the configured data model,
 by specifying custom entity types and constraints.
 This enables the adoption of community standards for metadata relevant for the research domain,
 which contributes to the *reusability* of the data.
-* Fairspace uses the {RDF}[Resource Description Framework (RDF)] and {WebDAV}[WebDAV] standards for data exchange,
+* Metatree uses the {RDF}[Resource Description Framework (RDF)] and {WebDAV}[WebDAV] standards for data exchange,
 and stimulates the use of standard vocabularies,
 contributing to *interoperability* of data.
 ****
@@ -80,7 +80,7 @@ image:docs/images/screenshots/Keycloak login.png[Keycloak login]
 Data is organised into defined levels.
 The data model configuration allows to specify custom entity types, constraints and the hierarchy.
 
-Due to the data loss prevention, data in Fairspace is not removed from the system on deletion.
+Due to the data loss prevention, data in Metatree is not removed from the system on deletion.
 Deleted collections and files can still be viewed in the application using "Show deleted" switch.
 The goal is to prevent deleted data from being overwritten by users (not to create collections or files with the paths
 that already existed in the system) and to allow administrators to perform special actions (to be performed only in exceptional special cases),
@@ -162,7 +162,7 @@ image:docs/images/screenshots/Metadata view.png[Metadata]
 
 === Interfaces for accessing and querying data (API)
 
-The data in Fairspace can be accessed via Application Programming Interfaces (APIs).
+The data in Metatree can be accessed via Application Programming Interfaces (APIs).
 The user interfaces application uses those APIs, but also other programs can use them,
 e.g., for automated data uploading or for exporting data for further processing
 or for synchronisation with other systems.
@@ -170,7 +170,7 @@ or for synchronisation with other systems.
 ==== Authentication
 
 All API endpoints require authentication via an authorisation header.
-To enable WebDAV clients to connect to Fairspace, also so-called _Basic authentication_ is supported.
+To enable WebDAV clients to connect to Metatree, also so-called _Basic authentication_ is supported.
 
 For secure authentication, it is strongly advised to use the _OpenID Connect (OIDC) / OAuth2_ workflow.
 The user interface application also uses this workflow.
@@ -187,12 +187,12 @@ That way the audit logging still captures which user did what.
 
 ===== OpenID Connect (OIDC) / OAuth2 workflow
 
-Fairspace supports OpenID Connect authentication via Keycloak.
+Metatree supports OpenID Connect authentication via Keycloak.
 The workflow for API access is roughly as follows.
 
 * The client authenticates with the token endpoint of the identity provider (Keycloak) and obtains a signed access token
-* The client uses the access token in the request header when connecting to the Fairspace API
-* Fairspace receives the request with the access token and validates if the token is valid,
+* The client uses the access token in the request header when connecting to the Metatree API
+* Metatree receives the request with the access token and validates if the token is valid,
   using the public key of the identity provider.
 
 The token endpoint of Keycloak supports refreshing the token if it is close to expiry.
@@ -275,7 +275,7 @@ ACCESS_TOKEN=$(fetch_access_token)
 ===== Basic authentication
 
 For WebDAV client access and for a simpler authentication method
-during testing, Fairspace also supports _Basic authentication_,
+during testing, Metatree also supports _Basic authentication_,
 which means that the ``base64`` encoded ``username:password`` string is sent in the ``Authorization`` header together with a prefix ``Basic ``.
 
 This authentication method is considered to be less secure than
@@ -324,7 +324,7 @@ def auth():
     """
     pass
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 headers = {
     'Authorization': auth()
 }
@@ -340,7 +340,7 @@ For Basic authentication:
 [source, bash]
 ----
 AUTH_HEADER="Basic $(echo -n "${KEYCLOAK_USERNAME}:${KEYCLOAK_PASSWORD}" | base64)"
-curl -i -H "Authorization: ${AUTH_HEADER}" "${FAIRSPACE_URL}/api/users/current"
+curl -i -H "Authorization: ${AUTH_HEADER}" "${METATREE_URL}/api/users/current"
 ----
 
 For OpenID Connect:
@@ -348,7 +348,7 @@ For OpenID Connect:
 ----
 # ACCESS_TOKEN=...
 AUTH_HEADER="Bearer ${ACCESS_TOKEN}"
-curl -i -H "Authorization: ${AUTH_HEADER}" "${FAIRSPACE_URL}/api/users/current"
+curl -i -H "Authorization: ${AUTH_HEADER}" "${METATREE_URL}/api/users/current"
 ----
 
 ==== WebDAV
@@ -358,14 +358,14 @@ A file storage API is exposed via the WebDAV protocol for accessing the file sys
 This endpoint can be used by many file explorers,
 including Windows Explorer,
 and by tools like https://filezilla-project.org/[FileZilla] and https://cyberduck.io/[Cyberduck].
-Use ``\https://fairspace.example.com/api/webdav/`` or
-``davs://fairspace.example.com/api/webdav/`` as location, with
-``fairspace.example.com`` replaced by the server name.
+Use ``\https://metatree.example.com/api/webdav/`` or
+``davs://metatree.example.com/api/webdav/`` as location, with
+``metatree.example.com`` replaced by the server name.
 
 All entities visible in the browser are directories of a specific type. Each directory is linked to a metadata entity that contains set of properties that depend on the type.
 
 The {WebDAV}[Web-based Distributed Authoring and Versioning (WebDAV)] protocol allows users to operate on collections and files.
-Fairspace exposes a WebDAV API for accessing the file systems, while restricting access to only the files accessible by the user.
+Metatree exposes a WebDAV API for accessing the file systems, while restricting access to only the files accessible by the user.
 
 The WebDAV API allows to upload and download files and to perform standard file operations such as copying or moving,
 as well as custom operations, such as collection lifecycle management
@@ -392,7 +392,7 @@ of the original directory.
 | `With-Metadata-Links`
 | Include list of metadata entities that are linked to the resource, when value `true`.
 2+| _Request body_:
-2+| To include also custom Fairspace attributes in the response, like the collection description, send the following request body: +
+2+| To include also custom Metatree attributes in the response, like the collection description, send the following request body: +
   ``<propfind><allprop /></propfind>``
 |===
 
@@ -409,7 +409,7 @@ import requests
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def exists(path):
     """ Check if a path exists
@@ -435,7 +435,7 @@ from xml.etree.ElementTree import fromstring
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def ls(path: str):
     """ List contents of path
@@ -460,7 +460,7 @@ def ls(path: str):
 Requires the http://xmlstar.sourceforge.net/[xmlstarlet] tool.
 [source, bash]
 ----
-curl -s -H "Authorization: ${AUTH_HEADER}" -X PROPFIND -H "Depth: 1" "${FAIRSPACE_URL}/api/webdav/${path}" -d '<propfind><allprop /></propfind>' \
+curl -s -H "Authorization: ${AUTH_HEADER}" -X PROPFIND -H "Depth: 1" "${METATREE_URL}/api/webdav/${path}" -d '<propfind><allprop /></propfind>' \
 | xmlstarlet sel -T -t -m d:multistatus/d:response -v d:propstat/d:prop/d:displayname -n
 ----
 ====
@@ -473,7 +473,7 @@ curl -s -H "Authorization: ${AUTH_HEADER}" -X PROPFIND -H "Depth: 1" "${FAIRSPAC
 2+| Create a new Department-type directory
 2+| _Request headers_:
 | `Entity-Type`
-| Specify the URI of directory type, e.g. 'https://fairspace.nl/ontology#Department'
+| Specify the URI of directory type, e.g. 'https://metatree.nl/ontology#Department'
 |===
 
 
@@ -488,7 +488,7 @@ import requests
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def mkdir(path: str, entity_type: str):
     # Create directory
@@ -511,8 +511,8 @@ def mkdir(path: str, entity_type: str):
 ----
 # Create a new Department-type directory
 NEW_DIR=New department
-ENTITY_TYPE=https://fairspace.nl/ontology#Department
-curl -i -H "Authorization: ${AUTH_HEADER}" -X MKCOL -H "Entity-Type: ${ENTITY_TYPE}" "${FAIRSPACE_URL}/api/webdav/${NEW_DIR}"
+ENTITY_TYPE=https://metatree.nl/ontology#Department
+curl -i -H "Authorization: ${AUTH_HEADER}" -X MKCOL -H "Entity-Type: ${ENTITY_TYPE}" "${METATREE_URL}/api/webdav/${NEW_DIR}"
 ----
 ====
 
@@ -539,7 +539,7 @@ import requests
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def mkdir(path: str, entity_iri: str):
     # Create directory
@@ -563,7 +563,7 @@ def mkdir(path: str, entity_iri: str):
 # Create a new Department-type directory
 NEW_DIR=New department
 ENTITY_IRI=http://localhost/iri/ac122623-22f6-4311-83ea-97c024b9bbc2
-curl -i -H "Authorization: ${AUTH_HEADER}" -X MKCOL -H "Entity-Type: ${ENTITY_IRI}" "${FAIRSPACE_URL}/api/webdav/${NEW_DIR}"
+curl -i -H "Authorization: ${AUTH_HEADER}" -X MKCOL -H "Entity-Type: ${ENTITY_IRI}" "${METATREE_URL}/api/webdav/${NEW_DIR}"
 ----
 ====
 
@@ -592,7 +592,7 @@ from urllib.parse import quote
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def copy():
     path = 'Department 1/PI 1/Project 1/Study 1'
@@ -617,7 +617,7 @@ def copy():
 # Copy 'Department 1/PI 1/Project 1/Study 1' to 'Department 1/PI 1/Project 2/Study 1''
 path="Department 1/PI 1/Project 1/Study 1"
 target="/api/webdav/Department%201/PI%201/Project%202/Study%201"
-curl -i -H "Authorization: ${AUTH_HEADER}" -X COPY -H "Destination: ${target}" "${FAIRSPACE_URL}/api/webdav/${path}"
+curl -i -H "Authorization: ${AUTH_HEADER}" -X COPY -H "Destination: ${target}" "${METATREE_URL}/api/webdav/${path}"
 ----
 ====
 
@@ -643,7 +643,7 @@ from urllib.parse import quote
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def copy():
     path = 'Department 1/PI 1/Project 1/Study 1'
@@ -668,7 +668,7 @@ def copy():
 # Copy 'Department 1/PI 1/Project 1/Study 1' to 'Department 1/PI 1/Project 2/Study 1''
 path="Department 1/PI 1/Project 1/Study 1"
 target="/api/webdav/Department%201/PI%201/Project%202/Study%201"
-curl -i -H "Authorization: ${AUTH_HEADER}" -X MOVE -H "Destination: ${target}" "${FAIRSPACE_URL}/api/webdav/${path}"
+curl -i -H "Authorization: ${AUTH_HEADER}" -X MOVE -H "Destination: ${target}" "${METATREE_URL}/api/webdav/${path}"
 ----
 ====
 
@@ -692,7 +692,7 @@ curl -i -H "Authorization: ${AUTH_HEADER}" -X MOVE -H "Destination: ${target}" "
 ====
 [source, bash]
 ----
-curl -i -H "Authorization: ${AUTH_HEADER}" -X POST -F "action=undelete" "${FAIRSPACE_URL}/api/webdav/${path}"
+curl -i -H "Authorization: ${AUTH_HEADER}" -X POST -F "action=undelete" "${METATREE_URL}/api/webdav/${path}"
 ----
 ====
 
@@ -721,7 +721,7 @@ from requests import Response, Session
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 def query_sparql(query: str):
     headers = {
@@ -736,7 +736,7 @@ def query_sparql(query: str):
 
 query_sparql("""
     PREFIX example: <https://example.com/ontology#>
-    PREFIX fs: <https://fairspace.nl/ontology#>
+    PREFIX fs: <https://metatree.nl/ontology#>
 
     SELECT DISTINCT ?sample
     WHERE {
@@ -758,7 +758,7 @@ Query for the first 500 samples.
 curl -X POST -H "Authorization: ${AUTH_HEADER}" -H 'Content-Type: application/sparql-query' -H 'Accept: application/json' \
 -d "
     PREFIX example: <https://example.com/ontology#>
-    PREFIX fs: <https://fairspace.nl/ontology#>
+    PREFIX fs: <https://metatree.nl/ontology#>
 
     SELECT DISTINCT ?sample
     WHERE {
@@ -768,7 +768,7 @@ curl -X POST -H "Authorization: ${AUTH_HEADER}" -H 'Content-Type: application/sp
     # ORDER BY ?sample
     LIMIT 500
 " \
-"${FAIRSPACE_URL}/api/rdf/query"
+"${METATREE_URL}/api/rdf/query"
 ----
 ====
 
@@ -796,9 +796,9 @@ the request is rejected with a status ``400`` response, with a message indicatin
 
 ===== Uploading metadata
 
-Shared metadata entities will in most cases come from other systems and will be added to Fairspace exclusively by an ETL process which will extract data from the laboratory and clinical systems, perform pseudonymization of identifiers, convert the metadata to some RDF-native format conforming the data model and send them to Fairspace.
+Shared metadata entities will in most cases come from other systems and will be added to Metatree exclusively by an ETL process which will extract data from the laboratory and clinical systems, perform pseudonymization of identifiers, convert the metadata to some RDF-native format conforming the data model and send them to Metatree.
 
-Fairspace will validate the uploaded metadata against the constraints defined in the data model and returns a detailed error message in case of violations.
+Metatree will validate the uploaded metadata against the constraints defined in the data model and returns a detailed error message in case of violations.
 The validations include all the necessary type checks, referential consistency (validity of identifiers) checks, validation of mandatory fields, etc.
 If any entity violates the constraints, the entire bulk upload will be rejected.
 
@@ -866,7 +866,7 @@ from requests import Response, Session
 
 log = logging.getLogger()
 
-server_url = os.environ.get('FAIRSPACE_URL')
+server_url = os.environ.get('METATREE_URL')
 
 with open('testdata.ttl') as testdata:
     headers={'Content-type': 'text/turtle',
@@ -887,7 +887,7 @@ with open('testdata.ttl') as testdata:
 [source, bash]
 ----
 curl -v -X PUT -H "Authorization: Basic $(echo -n "${KEYCLOAK_USERNAME}:${KEYCLOAK_PASSWORD}" | base64)" \
-  -H "Content-type: text/turtle" --data @testdata.ttl "${FAIRSPACE_URL}/api/metadata/"
+  -H "Content-type: text/turtle" --data @testdata.ttl "${METATREE_URL}/api/metadata/"
 ----
 ====
 
@@ -1178,7 +1178,7 @@ Results contain a list of files (and/or directories, collections) with the follo
 | Directory name.
 | ``type``
 | string
-| Type of the resource as defined in the vocabulary, e.g. "https://fairspace.nl/ontology#Directory"
+| Type of the resource as defined in the vocabulary, e.g. "https://metatree.nl/ontology#Directory"
 | ``comment``
 | string
 | File (or directory) description. Optional.
@@ -1206,15 +1206,15 @@ curl -X POST -H 'Content-type: application/json' -H 'Accept: application/json' -
 {
   "results": [
     {
-      "id": "https://fairspace.example.com/api/webdav/dep1/pi1",
+      "id": "https://metatree.example.com/api/webdav/dep1/pi1",
       "label": "pi1",
-      "type": "https://fairspace.nl/ontology#Directory",
+      "type": "https://metatree.nl/ontology#Directory",
       "comment": null
     },
     {
-      "id": "https://fairspace.example.com/api/webdav/dep2/pi1/pi_study1",
+      "id": "https://metatree.example.com/api/webdav/dep2/pi1/pi_study1",
       "label": "pi_study1",
-      "type": "https://fairspace.nl/ontology#Directory",
+      "type": "https://metatree.nl/ontology#Directory",
       "comment": null
     }
   ],
@@ -1392,7 +1392,7 @@ curl -H 'Accept: application/json' 'http://localhost:8080/api/features/'
 | List linked services.
 |===
 
-Response contains list of external services linked to Fairspace,
+Response contains list of external services linked to Metatree,
 e.g. JupyterHub, cBioPortal, etc.
 
 .Example listing services (curl)
@@ -1432,7 +1432,7 @@ curl -H 'Accept: application/json' 'http://localhost:8080/api/config/'
 | List linked data storages.
 |===
 
-Response contains list of external data storages linked to Fairspace.
+Response contains list of external data storages linked to Metatree.
 
 .Example listing external storages using curl
 [%collapsible]
@@ -1446,8 +1446,8 @@ curl -H 'Accept: application/json' 'http://localhost:8080/api/storages/'
 
 === External file system integration
 
-As Fairspace supports the <<WebDAV>> protocol, it can be configured to connect to external data storages that implement a WebDAV interface.
-An overview of external files is integrated into Fairspace user interface. Currently, a read-only interaction is supported.
+As Metatree supports the <<WebDAV>> protocol, it can be configured to connect to external data storages that implement a WebDAV interface.
+An overview of external files is integrated into Metatree user interface. Currently, a read-only interaction is supported.
 Users can browse through the external file system, read the data and metadata (e.g. creation date, description).
 Files from the external storage will be also made available for analysis in Jupyter Hub.
 
@@ -1462,13 +1462,13 @@ It is assumed that a user requesting files from a storage using WebDAV has at le
 Access can be further limited by using a custom `access` property. If a value of this property on a resource is set to "List",
 the resource's metadata will be readable, but it will not be possible to read the resource's content.
 
-Another assumption is that the Fairspace client can authenticate in the external storage via the same Keycloak and the same realm
-as configured for Fairspace, so that the same bearer token can be used for all storages.
+Another assumption is that the Metatree client can authenticate in the external storage via the same Keycloak and the same realm
+as configured for Metatree, so that the same bearer token can be used for all storages.
 See the <<Authentication>> section for more information.
 
 ==== API specification and supported parameters
 
-A subset of default WebDAV properties is used and displayed as a resource metadata in the Fairspace user interface.
+A subset of default WebDAV properties is used and displayed as a resource metadata in the Metatree user interface.
 These properties are presented in the table below.
 
 |===
@@ -1484,7 +1484,7 @@ These properties are presented in the table below.
 | Size of the file (0 for directories)
 |===
 
-There is also a set of custom Fairspace properties, some of which are required to be returned from the WebDAV request.
+There is also a set of custom Metatree properties, some of which are required to be returned from the WebDAV request.
 
 |===
 | WebDAV property | Description
@@ -1500,11 +1500,11 @@ There is also a set of custom Fairspace properties, some of which are required t
 Other supported value is ``List``, which means that users can see the resource and its metadata, but cannot read its content.
 | ``metadataEntities``
 | List of IRIs in a form of comma-separated string. IRIs represent all metadata entities linked to the resource.
-If the IRI matches a metadata entity stored in Fairspace, such an entity will be displayed in the user interface.
+If the IRI matches a metadata entity stored in Metatree, such an entity will be displayed in the user interface.
 |===
 
 It is also supported to specify any other custom property in the WebDAV response body, as WebDAV responses are easily extendable.
-All these properties (if not specifically marked as excluded in Fairspace), will be displayed in the user interface
+All these properties (if not specifically marked as excluded in Metatree), will be displayed in the user interface
 in a form of key-value pairs.
 
 ==== Text search in external storages
@@ -1607,7 +1607,7 @@ In this example, the Department class is a root entity with `test:PrincipalInves
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dash: <http://datashapes.org/dash#> .
-@prefix fs: <https://fairspace.nl/ontology#> .
+@prefix fs: <https://metatree.nl/ontology#> .
 @prefix test: <https://test.com/ontology#> .
 
 test:Department a rdfs:Class, sh:NodeShape ;
@@ -1660,7 +1660,7 @@ These entities do not belong to a particular space that is owned by a specific g
 
 === Data model configuration
 
-Fairspace uses an {Jena}[Apache Jena] database to store system metadata
+Metatree uses an {Jena}[Apache Jena] database to store system metadata
 and the custom domain specific metadata.
 The data models for these metadata are defined using the {SHACL}[Shapes Constraint Language (SHACL)].
 
@@ -1699,7 +1699,7 @@ The system class ``fs:File`` is extended with the _Is about subject_ property.
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dash: <http://datashapes.org/dash#> .
-@prefix fs: <https://fairspace.nl/ontology#> .
+@prefix fs: <https://metatree.nl/ontology#> .
 @prefix example: <https://example.com/ontology#> .
 
 example:Gender a rdfs:Class, sh:NodeShape ;
@@ -1829,9 +1829,9 @@ for the _Is about subject_ relation.
    to a single line text field using ``dash:singleLine true``.
 
 ==== Limitations
-Although assigning multiple types to an entity is easy in RDF, Fairspace assumes entities to have a single type.
+Although assigning multiple types to an entity is easy in RDF, Metatree assumes entities to have a single type.
 
-Inheritance is possible in SHACL, but not supported by Fairspace.
+Inheritance is possible in SHACL, but not supported by Metatree.
 Instead of specifying an entity type as a subtype of another,
 a single type can be specified with a _type_ property,
 indicating the sub type of the entity.
@@ -1848,7 +1848,7 @@ in the custom data model creation guidelines.
 
 ==== Changing existing data model
 
-Flexible, configurable data model is one of the key features of Fairspace.
+Flexible, configurable data model is one of the key features of Metatree.
 Data model evolution is possible, but needs to be applied carefully as well:
 make sure that new versions of data models are consistent with previous versions,
 in order to prevent inconsistencies for existing data.
@@ -1964,7 +1964,7 @@ Possible column `type` that can be specified in the configuration is one of **te
 
 === Docker
 
-To deploy Fairspace and Keycloak using docker, follow link:docker/README.md[the docker deployment instructions].
+To deploy Metatree and Keycloak using docker, follow link:docker/README.md[the docker deployment instructions].
 
 === Local development
 
@@ -2005,7 +2005,7 @@ At first run, you need to configure the service account in Keycloak.
 +
 image:docs/images/screenshots/Keycloak service account roles.png[Keycloak service account roles, role="th", align="center"]
 
-Now everything should be ready to start using Fairspace:
+Now everything should be ready to start using Metatree:
 
 * Navigate to link:http://localhost:3000[http://localhost:3000] to open the application.
 * Login with one of the following credentials:
@@ -2028,15 +2028,15 @@ Requires:
 * Helm >= 3.5.x
 * kubectl >= 1.17.x
 
-You can deploy Fairspace on a Kubernetes cluster using link:https://helm.sh/[Helm].
-Helm charts for Fairspace are published to the public helm repository at
+You can deploy Metatree on a Kubernetes cluster using link:https://helm.sh/[Helm].
+Helm charts for Metatree are published to the public helm repository at
 https://storage.googleapis.com/fairspace-helm.
 
 We provide a number of charts for various components that can be used in combination, or separately:
 
-- _Fairspace Keycloak_: Installs Keycloak and configures an ingress node for Keycloak. This chart is not required if Keycloak is already installed separately. You still need to <<Configure a Keycloak realm for Fairspace,configure a Keycloak realm for Fairspace>>.
+- _Metatree Keycloak_: Installs Keycloak and configures an ingress node for Keycloak. This chart is not required if Keycloak is already installed separately. You still need to <<Configure a Keycloak realm for Metatree,configure a Keycloak realm for Metatree>>.
 (Chart source: https://github.com/thehyve/fairspace-keycloak[].)
-- _Fairspace_: Installs the Fairspace application, including the _saturn_ backend, _pluto_ proxy and _mercury_ frontend, and configures an ingress node for Fairspace.
+- _Metatree_: Installs the Metatree application, including the _saturn_ backend, _pluto_ proxy and _mercury_ frontend, and configures an ingress node for Metatree.
 
 ==== Instructions for deploying to Google Cloud
 
@@ -2059,7 +2059,7 @@ We provide a number of charts for various components that can be used in combina
 gcloud container clusters get-credentials <cluster id> --zone europe-west1-b
 ----
 +
-Use ``fairspacecicluster`` as cluster id for the CI environment.
+Use ``Metatreecicluster`` as cluster id for the CI environment.
 Ensure that your Google account has access to the ``fairspace-207108`` GCP project and set the project property
 +
 [source, shell]
@@ -2084,12 +2084,12 @@ kubectl get ns
 ~/bin/helm/helm list -A
 ----
 
-===== Initialise helm and add fairspace repository
+===== Initialise helm and add Metatree repository
 [source, shell]
 ----
 # Add the stable repo
 ~/bin/helm/helm repo add stable https://charts.helm.sh/stable
-# Add the fairspace repo for reading
+# Add the Metatree repo for reading
 ~/bin/helm/helm repo add fairspace https://storage.googleapis.com/fairspace-helm
 # (Optional) Add the fairspace repo via the GCS plugin for writing
 ~/bin/helm/helm plugin install https://github.com/hayorov/helm-gcs.git --version 0.3.11
@@ -2105,7 +2105,7 @@ Find the address of the Kubernetes cluster:
 ----
 kubectl cluster-info
 ----
-Create DNS records for the ``keycloak.example.com``, ``fairspace.example.com`` and (optionally) ``jupyterhub.example.com`` domains, pointing to the cluster.
+Create DNS records for the ``keycloak.example.com``, ``metatree.example.com`` and (optionally) ``jupyterhub.example.com`` domains, pointing to the cluster.
 
 ===== Fetch charts
 [source, shell]
@@ -2161,51 +2161,51 @@ ingress:
       force: true
 ----
 
-===== Configure a Keycloak realm for Fairspace
+===== Configure a Keycloak realm for Metatree
 
 * Navigate to ``https://keycloak.example.com`` and select _Administration Console_:
 +
 image:docs/images/screenshots/Keycloak administration console.png[Keycloak administration console, role="th", align="center"]
 
-* Create a realm, e.g., _fairspace_:
+* Create a realm, e.g., _metatree_:
 +
 image:docs/images/screenshots/Add realm.png[Add realm, role="th", align="center"]
 
 * Configure the realm:
 +
 image:docs/images/screenshots/Realm settings.png[Realm settings, role="th", align="center"]
-* Add a client to the realm, e.g., _fairspace-example-private_:
+* Add a client to the realm, e.g., _metatree-example-private_:
 +
 image:docs/images/screenshots/Add client.png[Add client, role="th", align="center"]
 
 * Configure the client:
 +
 image:docs/images/screenshots/Client settings.png[Client settings, role="th", align="center"]
-
+3
 ** Set _Access Type_ to _confidential_;
 ** Set _Service Accounts Enabled_ to _On_;
-** Ensure that ``https://fairspace.example.com`` is added to the _Valid Redirect URIs_ and _Web Origins_;
+** Ensure that ``https://metatree.example.com`` is added to the _Valid Redirect URIs_ and _Web Origins_;
 ** Optionally (if you intend to add Jupyter Hub), ensure that the Jupyter Hub domain is added as well.
 
 * Assign the _view-users_ role for client _realm-management_ to the client service account:
 +
 image:docs/images/screenshots/Service account permissions.png[Service account permissions, role="th", align="center"]
 
-* Copy the client secret from the _Credentials_ tab, for use in the Fairspace configuration:
+* Copy the client secret from the _Credentials_ tab, for use in the Metatree configuration:
 +
 image:docs/images/screenshots/Client credentials.png[Client credentials, role="th", align="center"]
 
-===== Deploy Fairspace
+===== Deploy Metatree
 Create a new Kubernetes namespace:
 [source, shell]
 ----
-kubectl create namespace fairspace-new
+kubectl create namespace metatree-new
 ----
 Create a new deployment (called _release_ in helm terminology) and
 install the Fairspace chart:
 [source, shell]
 ----
-~/bin/helm/helm install fairspace-new fairspace/fairspace --version 0.7.25 --namespace fairspace-new \
+~/bin/helm/helm install metatree-new fairspace/fairspace --version 0.7.25 --namespace metatree-new \
 -f /path/to/values.yaml --set-file saturn.vocabulary=/path/to/vocabulary.ttl --set-file saturn.views=/path/to/views.yaml
 ----
 You can pass values files with ``-f`` and provide a file for a specified
@@ -2227,7 +2227,7 @@ fairspace:
   name: "Example Fairspace"
   description: "Example Fairspace"
   ingress:
-    domain: fairspace.example.com
+    domain: metatree.example.com
   features: []
   services:
 
@@ -2274,7 +2274,7 @@ pluto:
 To update a deployment using a new chart:
 [source, shell]
 ----
-~/bin/helm/helm upgrade fairspace-new fairspace-0.7.25.tgz
+~/bin/helm/helm upgrade metatree-new fairspace-0.7.25.tgz
 ----
 With ``helm upgrade`` you can also pass new values files with ``-f``
 and pass files with ``--set-file`` as for ``helm install``.
@@ -2286,7 +2286,7 @@ Forbidden: updates to statefulset spec for fields other than 'replicas', 'templa
 To prevent that, you can remove the existing ``StatefulSet`` before the upgrade:
 [source,shell]
 ----
-kubectl delete statefulset fairspace-new --namespace fairspace-new --cascade=orphan
+kubectl delete statefulset metatree-new --namespace metatree-new --cascade=orphan
 ----
 This will remove the ``StatefulSet``, but keep all pods and volumes intact.
 After running ``helm upgrade --install`` the ``StatefulSet`` will be recreated and the running pod will be replaced with a pod running the new application version.
@@ -2299,12 +2299,12 @@ WARNING: Be careful, you may lose data!
 Remove the application, but preserve persistent volume claims:
 [source, shell]
 ----
-~/bin/helm/helm uninstall --namespace fairspace-old fairspace-old
+~/bin/helm/helm uninstall --namespace metatree-old metatree-old
 ----
 Purge everything in the namespace, including persistent volume claims:
 [source, shell]
 ----
-kubectl delete ns fairspace-old
+kubectl delete ns metatree-old
 ----
 
 
@@ -2444,12 +2444,12 @@ In case of corruption the RDF database can be restored at any point of time usin
 Data recovery starts automatically on the Saturn application start, if the RDF database is empty
 and the transaction log containing entries is detected.
 
-If Fairspace is deployed using Kubernetes, follow the steps below in order to restore the RDF database.
+If Metatree is deployed using Kubernetes, follow the steps below in order to restore the RDF database.
 
 Stop (scale down) the application:
 [source, shell]
 ----
-kubectl scale --replicas=0 --namespace fairspace-new statefulset/fairspace-new
+kubectl scale --replicas=0 --namespace metatree-new statefulset/metatree-new
 ----
 
 Delete a persistent volume consisting transient data.
@@ -2457,13 +2457,13 @@ If the reclaim policy of the pv is set to `Delete` or `Recycle`, delete the boun
 persistent volume claim and the volume will be removed as well:
 [source, shell]
 ----
-kubectl --namespace fairspace-new delete pvc database-fairspace-new-0
+kubectl --namespace metatree-new delete pvc database-metatree-new-0
 ----
 
 If the reclaim policy is set to `Retain`, you need to delete the pv manually.
-Find a name of pv bound to the deleted pvc (claim equals to `database-fairspace-new-0`):
+Find a name of pv bound to the deleted pvc (claim equals to `database-metatree-new-0`):
 ----
-kubectl --namespace fairspace-new get pv
+kubectl --namespace metatree-new get pv
 ----
 
 and delete the pv:
@@ -2476,13 +2476,13 @@ See link:https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaim
 Start (scale up) the application. The deleted pvc and pv will be recreated and data recovery will start automatically:
 [source, shell]
 ----
-kubectl scale --replicas=1 --namespace fairspace-new statefulset/fairspace-new
+kubectl scale --replicas=1 --namespace metatree-new statefulset/metatree-new
 ----
 
 Check the Saturn container's logs to monitor the recovery process:
 [source, shell]
 ----
-kubectl --namespace fairspace-new logs statefulset/fairspace-new  fairspace-new-saturn -f
+kubectl --namespace metatree-new logs statefulset/metatree-new  metatree-new-saturn -f
 ----
 
 The logs should contain the following information:
@@ -2506,11 +2506,11 @@ As soon as you see "Saturn has started" the RDF database should be restored to t
 
 image:docs/images/diagrams/Architecture.png[Architecture]
 
-There are three core components of Fairspace: Mercury front-end, Pluto proxy and Saturn back-end.
+There are three core components of Metatree: Mercury front-end, Pluto proxy and Saturn back-end.
 Together with storages and Keycloak as an identity and access management solution
-they create a complete Fairspace environment.
+they create a complete Metatree environment.
 
-_Components that are greyed out, like Jupyter Hub and external storage systems, are a part of the original setup, but are not maintained within SILS-Fairspace project, so may not work correctly._
+_Components that are greyed out, like Jupyter Hub and external storage systems, are a part of the original setup, but are not maintained within Metatree project, so may not work correctly._
 
 === Mercury
 
@@ -2534,7 +2534,7 @@ follow the authentication flow and to handle JWT tokens.
 
 === Saturn
 
-The heart of Fairspace, back-end application handling all the logic and connection to the storages.
+The heart of Metatree, back-end application handling all the logic and connection to the storages.
 Data repository and catalog.
 
 Saturn is served as link:https://jena.apache.org/documentation/fuseki2/[Apache Jena Fuseki SPARQL] server,
@@ -2542,12 +2542,12 @@ embedded into link:https://www.eclipse.org/jetty/[Jetty] Web server.
 
 Saturn uses link:https://jena.apache.org/documentation/rdf/[Apache Jena RDF] for handling RDF graphs,
 serialisation of triples and TDB triple store connection.
-All data within Fairspace, except to uploaded files and logs, are stored in Apache Jena RDF database.
+All data within Metatree, except to uploaded files and logs, are stored in Apache Jena RDF database.
 
 For security, Saturn is integrated with Keycloak using link:https://www.keycloak.org/docs/latest/securing_apps/#_jetty9_adapter[Keycloak Jetty client adapter].
 It enables user authentication with access tokens.
 
-Saturn is also responsible for authorization of users in Fairspace - it includes user access validators
+Saturn is also responsible for authorization of users in Metatree - it includes user access validators
 and storage of user records and permissions in the RDF database.
 
 Saturn uses link:https://milton.io/[Milton IO], Java Webdav Server Library, to enable file storage management,
@@ -2588,12 +2588,12 @@ Note! This storage does not support hierarchical data browsing and is currently 
 
 === Deployment architecture
 
-Below you can find a diagram presenting the architecture of Fairspace deployment on a Kubernetes cluster,
-using Fairspace Helm chart described in previous sections.
+Below you can find a diagram presenting the architecture of Metatree deployment on a Kubernetes cluster,
+using Metatree Helm chart described in previous sections.
 
 image:docs/images/diagrams/Kubernetes architecture.png[Kubernetes architecture]
 
-If Keycloak is deployed together with Fairspace, it should be placed in separate namespaces of
+If Keycloak is deployed together with Metatree, it should be placed in separate namespaces of
 the same Kubernetes cluster.
 
 

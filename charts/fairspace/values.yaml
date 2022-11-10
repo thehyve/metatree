@@ -1,9 +1,9 @@
-# Default values for Fairspace.
+# Default values for Metatree.
 
-# Set specific fairspace name. Defaults to release name
+# Set specific Metatree name. Defaults to release name
 nameOverride:
 
-# External dependencies for running the fairspace
+# External dependencies for running the Metatree
 external:
   # Settings for the Keycloak adapter, used to authenticate users and fetch user information.
   keycloak:
