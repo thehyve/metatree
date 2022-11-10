@@ -39,20 +39,19 @@ const Dropdown = ({
     });
 
     const inputRef = React.createRef();
-    var delayTime = 0;
-    var delayText = "";
-    var delayActive = false;
+    let delayTime = 0;
+    let delayText = "";
+    let delayActive = false;
 
     const delayedExecute = () => {
         delayActive = true;
         if (delayTime < 0) {
             setSearchText(delayText);
             delayActive = false;
-            delayTime = 1200;
             delayText = "";
         } else {
             setTimeout(() => {
-                delayTime = delayTime - 100;
+                delayTime -= 100;
                 delayedExecute();
             }, 100);
         }
@@ -60,11 +59,13 @@ const Dropdown = ({
 
     const onTextChange = (event) => {
         delayText = event.target.valueOf().value;
-        delayTime = 1200;
 
-        if(delayActive)
+        if (delayActive) {
+            delayTime += 200;
             return;
+        }
 
+        delayTime = 400;
         delayedExecute();
     };
 
