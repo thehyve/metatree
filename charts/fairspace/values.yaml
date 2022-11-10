@@ -12,7 +12,7 @@ external:
     realm:
     clientSecret:
 
-# Setup ingress for Metatree components
+# Setup ingress for fairspace components
 fairspace:
   name: "fairspace"
   description: "Fairspace"
