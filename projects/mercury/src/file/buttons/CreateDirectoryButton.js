@@ -67,7 +67,7 @@ const CreateDirectoryButton = ({children, disabled, onCreate, allowedTypes, loca
         }
 
         const p = {property: {className: entityType},
-            clearTextOnSelection: false,
+            clearTextOnSelection: true,
             onChange: onLinkedEntitySelected};
         return LinkedDataDropdown(p);
     };
