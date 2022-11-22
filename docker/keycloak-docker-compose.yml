@@ -35,7 +35,7 @@ services:
       KEYCLOAK_REALM: ${KEYCLOAK_REALM:?Please configure KEYCLOAK_REALM}
       KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID:?Please configure KEYCLOAK_CLIENT_ID}
       PROXY_ADDRESS_FORWARDING: 'true'
-      FAIRSPACE_URL: ${FAIRSPACE_URL:?Please configure FAIRSPACE_URL.}
+      METATREE_URL: ${METATREE_URL:?Please configure METATREE_URL.}
     ports:
       - ${KEYCLOAK_PORT:-8080}:8080
     depends_on:

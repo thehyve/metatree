@@ -7,7 +7,7 @@ cat > "application.yaml" <<EndOfMessage
 server.port: 9080
 pluto:
   domains:
-    - ${FAIRSPACE_URL}
+    - ${METATREE_URL}
   downstreamServiceHealthUrl: http://fairspace-saturn:8090/api/health/
   oauth2:
     base-url: ${KEYCLOAK_SERVER_URL}
@@ -31,7 +31,7 @@ server:
 
 security:
   oidc:
-    redirect-after-logout-url: ${FAIRSPACE_URL}/login
+    redirect-after-logout-url: ${METATREE_URL}/login
     clientId: ${KEYCLOAK_CLIENT_ID}
     clientSecret: ${KEYCLOAK_CLIENT_SECRET}
 

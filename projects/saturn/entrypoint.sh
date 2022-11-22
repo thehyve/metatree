@@ -5,9 +5,9 @@ if [ "$USE_DOCKERCOMPOSE" = true ] ; then
 cat > "application.yaml" <<EndOfMessage
 ---
 port: 8090
-publicUrl: ${FAIRSPACE_URL}
+publicUrl: ${METATREE_URL}
 jena:
-  metadataBaseIRI: ${FAIRSPACE_URL}/iri/
+  metadataBaseIRI: ${METATREE_URL}/iri/
   datasetPath: "/data/saturn/db"
   storeParams:
     tdb.file_mode: "mapped"

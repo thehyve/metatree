@@ -1,9 +1,9 @@
 # Mercury
 
 This application contains the user interface to list, manage and 
-explore collections and metadata in Fairspace.
+explore collections and metadata in Metatree.
 
-For a detailed description of the application, see the [Fairspace documentation](../../README.adoc).
+For a detailed description of the application, see the [Metatree documentation](../../README.adoc).
 
 ## Development
 
